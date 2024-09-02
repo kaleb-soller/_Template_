@@ -1,0 +1,5 @@
+site_name: Project Documentation
+
+nav:
+  - Home: index.md
+  - About: about.md
