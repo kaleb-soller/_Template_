@@ -44,13 +44,39 @@ graph TD
 '''
 
 
+mermaid.initialize({
+  securityLevel: 'loose',
+  theme: 'forest',
+});
 
+---
+# FLOWCHART LR
+```mermaid
 ---
 config:
   look: handDrawn
-  theme: neutral
+  theme: natural
 ---
 flowchart LR
   A[Start] --> B{Decision}
   B -->|Yes| C[Continue]
   B -->|No| D[Stop]
+```
+---
+# "GRAPH TD"
+```mermaid
+graph TD
+  A[Christmas] -->|Get money| B(Go shopping)
+  B --> C{Let me think}
+  B --> G[/Another/]
+  C ==>|One| D[Laptop]
+  C -->|Two| E[iPhone]
+  C -->|Three| F[fa:fa-car Car]
+  subgraph "Sub-Graph Flowchart"
+    C
+    D
+    E
+    F
+    G
+  end
+```
