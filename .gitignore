@@ -4,3 +4,4 @@ src/.env
 .vscode
 .DS_Store
 test_*.py
+.venv
