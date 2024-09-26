@@ -21,21 +21,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: 3.8
-          
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+      - name: Activate virtual environment
+        run: |
+          if [ ! -d ".venv" ]; then
+            python -m venv .venv
+          fi
+          source .venv/Scripts/activate
+        shell: bash
 
       - name: Install Dependencies
         run: |
+          source .venv/Scripts/activate
           pip install -r requirements.txt
           pip install pytest
         shell: bash
