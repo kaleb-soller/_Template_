@@ -3,6 +3,12 @@
 name: "Python Test"
 description: "Runs tests using pytest"
 
+inputs:
+  python-version:
+    description: "Version of Python to use"
+    required: true
+    default: "3.8"
+
 runs:
   using: "composite"
   steps:
@@ -17,14 +23,9 @@ runs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
-        pip install pytest
+      shell: bash
 
     - name: Run Tests
       run: |
         pytest
-
-inputs:
-  python-version:
-    description: "Version of Python to use"
-    required: true
-    default: "3.8"
+      shell: bash

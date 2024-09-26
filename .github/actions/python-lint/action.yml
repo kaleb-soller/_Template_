@@ -12,11 +12,14 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install Dependencies
-      run: |
-        pip install flake8
-      shell: bash
-    
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ inputs.python-version }}
+
     - name: Run Linter
       run: |
         flake8 .
