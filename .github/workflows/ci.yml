@@ -18,7 +18,8 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: 3.8
+          python-version: 3.12
+      
       - name: Upgrade pip
         run: |
           pip install --upgrade pip
@@ -41,7 +42,7 @@ jobs:
       - name: Run Linter
         uses: ./.github/actions/python-lint
         with:
-          python-version: '3.8'
+          python-version: '3.12'
 
   test:
     runs-on: ubuntu-latest
@@ -61,4 +62,4 @@ jobs:
       - name: Run Tests
         uses: ./.github/actions/python-test
         with:
-          python-version: '3.8'
+          python-version: '3.12'
