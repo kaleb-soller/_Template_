@@ -1,3 +1,5 @@
+# ./.github/workflows/ci.yml
+
 name: CI
 
 on:
@@ -11,9 +13,22 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.8
+      
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+        shell: bash
+      
       - name: Run Linter
         uses: ./.github/actions/python-lint
         with:
@@ -21,9 +36,34 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+      - name: Run Tests
+        uses: ./.github/actions/python-test
+        with:
+          python-version: '3.8'
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.8
+      
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+        shell: bash
+
       - name: Run Tests
         uses: ./.github/actions/python-test
         with:
