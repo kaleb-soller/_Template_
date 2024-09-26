@@ -1,16 +1,30 @@
 name: "Python Test"
 description: "Runs tests using pytest"
+
 inputs:
   python-version:
     description: "Version of Python to use"
     required: true
     default: "3.8"
+
 runs:
-  using: "bash"
+  using: "composite"
   steps:
-    - name: Install Dependencies
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Set up Python
       run: |
+        echo "Setting up Python version ${{ inputs.python-version }}"
+      shell: bash
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
         pip install pytest
+      shell: bash
+
     - name: Run Tests
       run: |
         pytest
+      shell: bash

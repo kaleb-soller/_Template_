@@ -11,6 +11,9 @@ runs:
     - name: Install Dependencies
       run: |
         pip install flake8
+      shell: bash
+    
     - name: Run Linter
       run: |
         flake8 .
+      shell: bash
