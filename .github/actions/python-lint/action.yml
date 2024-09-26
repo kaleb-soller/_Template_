@@ -19,8 +19,24 @@ runs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ inputs.python-version }}
+    
+    - name: Activate virtual environment
+      run: |
+        if [ ! -d ".venv" ]; then
+          python -m venv .venv
+        fi
+        source .venv/bin/activate
+      shell: bash
+
+    - name: Install Dependencies
+      run: |
+        source .venv/bin/activate
+        pip install -r requirements.txt
+        pip install flake8
+      shell: bash
 
     - name: Run Linter
       run: |
+        source .venv/bin/activate
         flake8 .
       shell: bash
