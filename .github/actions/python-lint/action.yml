@@ -1,12 +1,16 @@
+# ./.github/actions/python-lint/action.yml
+
 name: "Python Lint"
 description: "Runs a linter on Python code"
+
 inputs:
   python-version:
     description: "Version of Python to use"
     required: true
     default: "3.8"
+
 runs:
-  using: "bash"
+  using: "composite"
   steps:
     - name: Install Dependencies
       run: |
