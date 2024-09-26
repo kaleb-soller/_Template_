@@ -1,7 +1,14 @@
-## Descriptions
-this will be a pull request template.
+# Pull Request Title
 
-- [ ]  Did this get a semantic version bump?
-- [ ]  Is this a great pull request?
-- [ ]  Did you 5 head this pull request?
-- [ ]  Did you add tests to this pull request that are good and not crap?
+## Description
+_Provide a brief description of the changes._
+
+## Type of Change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Documentation update
+- [ ] Other (please specify)
+
+## Checklist
+- [ ] I have read the contributing guidelines.
+- [ ] My code follows the project's code style.
