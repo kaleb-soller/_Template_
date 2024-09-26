@@ -38,5 +38,5 @@ runs:
     - name: Run Linter
       run: |
         source .venv/bin/activate
-        flake8 --exclude .venv, libs, tests, logs
+        flake8 --exclude .venv, src/libs, src/tests, src/logs
       shell: bash
