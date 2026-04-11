@@ -1,8 +1,6 @@
 # /LeetCode/decorators/file_input_objects.py
 
-import logging
 from functools import wraps
-from functools import update_wrapper
 
 # from logs import Logger as logger
 from logs import logger
@@ -14,8 +12,14 @@ def log_arguments(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         arg_str = ", ".join([repr(arg) for arg in args])
-        kwarg_str = ", ".join([f"{key}={value!r}" for key, value in kwargs.items()])
-        logger.info(f"{func.__name__=} called:[{arg_str=}, {kwarg_str=}]")
+
+        kwarg_str = ""
+        for key, value in kwargs.items():
+            kwarg_str += f"{key}={value!r}, "
+        kwarg_str = kwarg_str.rstrip(", ")
+        logger.info(f"{func.__name__=} called:")
+        logger.info(f"{arg_str=}")
+        logger.info(f"{kwarg_str=}")
         # logger.info("log file, function={func.__name__}")
 
         return func(*args, **kwargs)
