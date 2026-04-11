@@ -1,0 +1,56 @@
+#!/bin/sh
+
+
+
+###
+PRIVATE_REPO="$(git rev-parse --show-toplevel)"
+ACTIVITY_REPO="$HOME/Documents/GitHub/ActivityLog"
+COUNT_FILE="$PRIVATE_REPO/.git/commit_count"
+
+
+cd "$PRIVATE_REPO" || exit
+# If file exists → do nothing
+# If file missing → create it
+[ -f "$COUNT_FILE" ] || (mkdir -p "$(dirname "$COUNT_FILE")"; echo 0 > "$COUNT_FILE")
+
+COUNT=$(cat "$COUNT_FILE" 2>/dev/null || echo 0)
+COUNT=$((COUNT + 1))
+echo "$COUNT" > "$COUNT_FILE"
+
+TIMES=$(git log -n "$COUNT" --reverse --pretty=%aI)
+
+
+cd "$ACTIVITY_REPO" || exit
+# DATE=$(date +"%Y-%m-%d_%H-%M")
+LOGFILE="$ACTIVITY_REPO/ActivityLog.log"
+TODAYS_DATE=$(date +"%Y-%m-%dT%H:%M:%S%:z")
+
+# Ensure the directory exists (just in case)
+mkdir -p "$(dirname "$LOGFILE")"
+
+
+# Ensure the file exists
+[ -f "$LOGFILE" ] || touch "$LOGFILE"
+echo "Dev. Log: $TODAYS_DATE" >> "$LOGFILE"
+
+# MESSAGE=$(git -C - log -1 --pretty=%s 2>/dev/null)
+MESSAGE="Dev Log:"
+USER_EMAIL=$(git config user.email)
+
+while read -r TIME; do
+  GIT_AUTHOR_DATE="$TIME" \
+  GIT_COMMITTER_DATE="$TIME" \
+  git commit --allow-empty -m "$MESSAGE ($TIME) <$USER_EMAIL>"
+done <<< "$TIMES"
+
+
+if git push; then
+	# Push Success
+	# Reset counter for next session
+	cd "$PRIVATE_REPO" || exit
+    echo 0 > "$COUNT_FILE"
+else
+	# Push Failed, keep counter for next push.
+    echo "Push failed! Counter not reset."
+	cd "$PRIVATE_REPO" || exit
+fi
